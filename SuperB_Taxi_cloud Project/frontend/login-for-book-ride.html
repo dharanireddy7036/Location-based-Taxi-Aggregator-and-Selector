@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taxi Booking</title>
+</head>
+<body>
+  <!-- Taxi Booking Form -->
+  <h2>BOOK YOUR RIDE</h2>
+  <form id="bookingForm">
+    <label for="pickupLocation">PickupLocation:</label>
+    <input type="text" id="pickupLocation" name="pickupLocation" required>
+    <br>
+    <label for="dropoffLocation">Destination:</label>
+    <input type="text" id="dropoffLocation" name="dropoffLocation" required>
+    <br>
+    <label for="pickupTime">Pickup Time:</label>
+    <input type="datetime-local" id="pickupTime" name="pickupTime" required>
+    <br>
+	<label for="vehicleType">Vehicle Type:</label>
+    <select id="vehicleType" name="vehicleType">
+      <option value="sedan">Sedan</option>
+      <option value="suv">SUV</option>
+      <option value="van">Van</option>
+	  <option value="Hackback">Hackback</option>
+	  <option value="MUV">MUV</option>
+    </select>
+	<br>
+	  </select>	
+	  <label for="taxi_type">Taxi Type:</label>
+       <select id="taxi_type" name="taxi_type" required>
+        <option value="utility">Utility</option>
+        <option value="deluxe">Deluxe</option>
+        <option value="luxury">Luxury</option>
+       </select><br>
+    <button type="submit">Book Taxi</button>
+  </form>
+</body>
+</html>

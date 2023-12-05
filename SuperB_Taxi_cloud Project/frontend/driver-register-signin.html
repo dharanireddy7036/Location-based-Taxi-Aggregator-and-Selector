@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      /* Define table styles */
+      #taxiTable {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      #taxiTable th,
+      #taxiTable td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      #taxiTable th {
+        background-color: #f2f2f2;
+      }
+
+      /* Define button styles */
+      .book-button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+
+      /* Hide the table initially */
+      .hidden {
+        display: none;
+      }
+    </style>
+
+    <title>Taxi Driver Registration</title>
+  </head>
+  <body>
+    <h1 class="registrationForm" style="color: brown">Taxi Driver Sign Up</h1>
+
+    <div class="registrationForm">
+      <form id="registrationForm">
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" name="fullName" required />
+        <br />
+        <br />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+        <br />
+        <br />
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" required />
+        <br />
+        <br />
+
+        <label for="Vehical Number">Vehical Number:</label>
+        <input type="tel" id="vehicleNumber" name="Vehical Number" required />
+        <br />
+        <br />
+
+        <label for="DLNumber">DL Number:</label>
+        <input type="text" id="licenseNumber" name="licenseNumber" required />
+        <br />
+        <br />
+
+        <label for="vehicleType">Vehicle Type:</label>
+        <select id="vehicleType" name="vehicleType">
+          <option value="SEDAN">Sedan</option>
+          <option value="SUV">SUV</option>
+          <option value="VAN">Van</option>
+          <option value="HATCH_BACK">Hatch Back</option>
+          <option value="MUV">MUV</option>
+        </select>
+        <br />
+        <br />
+
+        <button type="button" id="driverRegister">Submit</button>
+      </form>
+    </div>
+
+    <div>
+      <h1 id="loginText" style="color: brown">Login to List Rides</h1>
+      <form id="login-form">
+        <label for="loginEmail">Email:</label>
+        <input type="text" id="loginEmail" name="loginEmail" required />
+        <br />
+        <br />
+        <button type="button" id="loginToList">Log In</button>
+      </form>
+    </div>
+
+    <table id="taxiTable" class="hidden">
+      <thead>
+        <tr>
+          <th>User Full Name</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>Status</th>
+          <th>Booking Id</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Taxi data will be added here -->
+      </tbody>
+    </table>
+
+    <script>
+      $(document).ready(() => {
+        $("#driverRegister").click(() => {
+          const fullName = $("#fullName").val();
+          const email = $("#email").val();
+          const phoneNumber = $("#phoneNumber").val();
+          const vehicleNumber = $("#vehicleNumber").val();
+          const licenseNumber = $("#licenseNumber").val();
+          const vehicleType = $("#vehicleType").val();
+
+          const driverRegisterData = {
+            full_name: fullName,
+            email: email,
+            phone_number: phoneNumber,
+            vehicle_number: vehicleNumber,
+            driving_license_no: licenseNumber,
+            vehicle_type: vehicleType,
+            initial_location: {
+              type: "Point",
+              coordinates: [75.792384, 23.196467],
+            },
+            current_location: {
+              type: "Point",
+              coordinates: [75.792384, 23.196467],
+            },
+          };
+
+          $.ajax({
+            type: "POST",
+            url: "https://mqqcnswup8.execute-api.us-east-1.amazonaws.com/driver_register",
+            data: JSON.stringify(driverRegisterData),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: (response) => {
+              if (response.statusCode === 409) {
+                alert(response.message);
+              } else {
+                alert(response.message);
+              }
+            },
+            error: (xhr, status, error) => {
+              if (xhr.status === 0) {
+                console.error("CORS issue: No response from the server.");
+              } else if (xhr.status === 403) {
+                console.error("CORS issue: Access to the server is forbidden.");
+              } else if (xhr.status === 404) {
+                console.error(
+                  "CORS issue: The requested resource was not found."
+                );
+              } else if (xhr.status === 500) {
+                console.error("CORS issue: Internal server error.");
+              } else {
+                console.error("CORS issue: An unexpected error occurred.");
+              }
+            },
+          });
+        });
+
+        $("#loginToList").click(() => {
+          const loginEmail = $("#loginEmail").val();
+
+          const loginDriverData = {
+            email: loginEmail,
+          };
+
+          console.log(loginDriverData);
+
+          $.ajax({
+            type: "POST",
+            url: "https://q4v8c3mhxg.execute-api.us-east-1.amazonaws.com/driver_login",
+            data: JSON.stringify(loginDriverData),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: (response) => {
+              if (response.statusCode === 404) {
+                alert(response.message);
+              } else {
+                alert(response.message);
+
+                const registrationDiv =
+                  document.getElementsByClassName("registrationForm");
+                registrationDiv[0].style.display = "none";
+                registrationDiv[1].style.display = "none";
+
+                const loginText = document.getElementById("loginText");
+                loginText.textContent = "Bookings List";
+
+                const taxiData = response.data;
+                const table = document.querySelector("#taxiTable");
+                const tableBody = table.querySelector("tbody");
+
+                table.classList.remove("hidden");
+
+                taxiData.forEach((taxi) => {
+                  const row = document.createElement("tr");
+
+                  const userFullName = document.createElement("td");
+                  userFullName.textContent = "Alex Doe";
+
+                  const startTime = document.createElement("td");
+                  startTime.textContent = taxi?.start_date?.$date;
+
+                  const endTime = document.createElement("td");
+                  endTime.textContent = taxi?.end_date?.$date || "N/A";
+
+                  const bookingStatus = document.createElement("td");
+                  bookingStatus.textContent = taxi.status;
+
+                  const bookingId = document.createElement("td");
+                  bookingId.textContent = taxi["_id"]["$oid"];
+
+                  const actionCell = document.createElement("td");
+                  const bookRideButton = document.createElement("button");
+                  bookRideButton.textContent = "Finish Ride";
+                  bookRideButton.type = "button";
+                  bookRideButton.id = "bookRideButton";
+
+                  bookRideButton.addEventListener("click", () => {
+                    const bookingData = {
+                      booking_id: bookingId.textContent,
+                    };
+
+                    $.ajax({
+                      type: "POST",
+                      url: "https://d8qix5krgh.execute-api.us-east-1.amazonaws.com/driver_end_ride",
+                      data: JSON.stringify(bookingData),
+                      contentType: "application/json; charset=utf-8",
+                      dataType: "json",
+                      success: (response) => {
+                        if (response.statusCode === 200) {
+                          alert(response.message);
+                        }
+                      },
+                      error: (xhr, status, error) => {
+                        if (xhr.status === 0) {
+                          console.error(
+                            "CORS issue: No response from the server."
+                          );
+                        } else if (xhr.status === 403) {
+                          console.error(
+                            "CORS issue: Access to the server is forbidden."
+                          );
+                        } else if (xhr.status === 404) {
+                          console.error(
+                            "CORS issue: The requested resource was not found."
+                          );
+                        } else if (xhr.status === 500) {
+                          console.error("CORS issue: Internal server error.");
+                        } else {
+                          console.error(
+                            "CORS issue: An unexpected error occurred."
+                          );
+                        }
+                      },
+                    });
+                  });
+
+                  actionCell.appendChild(bookRideButton);
+
+                  row.appendChild(userFullName);
+                  row.appendChild(startTime);
+                  row.appendChild(endTime);
+                  row.appendChild(bookingStatus);
+                  row.appendChild(bookingId);
+                  row.appendChild(actionCell);
+
+                  tableBody.appendChild(row);
+                });
+              }
+            },
+            error: (xhr, status, error) => {
+              if (xhr.status === 0) {
+                console.error("CORS issue: No response from the server.");
+              } else if (xhr.status === 403) {
+                console.error("CORS issue: Access to the server is forbidden.");
+              } else if (xhr.status === 404) {
+                console.error(
+                  "CORS issue: The requested resource was not found."
+                );
+              } else if (xhr.status === 500) {
+                console.error("CORS issue: Internal server error.");
+              } else {
+                console.error("CORS issue: An unexpected error occurred.");
+              }
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

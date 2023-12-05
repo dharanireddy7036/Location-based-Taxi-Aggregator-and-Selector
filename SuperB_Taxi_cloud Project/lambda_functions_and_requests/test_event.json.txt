@@ -1,0 +1,22 @@
+{
+  "Records": [
+    {
+      "EventSource": "aws:sns",
+      "EventVersion": "1.0",
+      "EventSubscriptionArn": "arn:aws:sns:us-east-1:366716511466:Superb_taxi",
+      "Sns": {
+        "Type": "Notification",
+        "MessageId": "2e7e6e97-81d8-52a1-b245-07fb9bf438d1",
+        "TopicArn": "arn:aws:sns:us-east-1:123456789012:Your-Topic-Name",
+        "Subject": "My Subject",
+        "Message": "Hello from Lambda!",
+        "Timestamp": "2023-08-01T13:51:00.000Z",
+        "SignatureVersion": "1",
+        "Signature": "YOUR_SIGNATURE",
+        "SigningCertUrl": "YOUR_CERT_URL",
+        "UnsubscribeUrl": "YOUR_UNSUBSCRIBE_URL",
+        "MessageAttributes": {}
+      }
+    }
+  ]
+}

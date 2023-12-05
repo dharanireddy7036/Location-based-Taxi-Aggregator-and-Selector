@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Taxi User OTP Verification</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <h1>Taxi User OTP Verification</h1>
+    </header>
+
+    <section class="otp-section">
+      <p>An OTP has been sent to your registered mobile number.</p>
+      <form id="otp-form">
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" required />
+        <br />
+
+        <label for="otp">Enter OTP:</label>
+        <input type="text" id="otp" name="otp" maxlength="6" required />
+        <br />
+        <br />
+
+        <button type="button" id="verifyOtp">Verify OTP</button>
+        <button type="button" id="resendOtp">Resend OTP</button>
+      </form>
+    </section>
+
+    <script>
+      $(document).ready(() => {
+        $("#verifyOtp").click(() => {
+          const phoneNumber = $("#phoneNumber").val();
+          const otp = $("#otp").val();
+
+          const inputOtpVerify = {
+            phone_number: phoneNumber,
+            otp: otp,
+          };
+
+          $.ajax({
+            type: "POST",
+            url: "https://7i1kitb9k5.execute-api.us-east-1.amazonaws.com/verify_user_otp",
+            data: JSON.stringify(inputOtpVerify),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: (response) => {
+              window.location.href = "./update-user.html";
+            },
+            error: (xhr, status, error) => {
+              if (xhr.status === 0) {
+                console.error("CORS issue: No response from the server.");
+              } else if (xhr.status === 403) {
+                console.error("CORS issue: Access to the server is forbidden.");
+              } else if (xhr.status === 404) {
+                console.error(
+                  "CORS issue: The requested resource was not found."
+                );
+              } else if (xhr.status === 500) {
+                console.error("CORS issue: Internal server error.");
+              } else {
+                console.error("CORS issue: An unexpected error occurred.");
+              }
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

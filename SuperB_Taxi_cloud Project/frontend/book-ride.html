@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taxi User Sign Up/Login</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <h1 style="color: brown">Sign Up</h1>
+
+    <form id="phoneNumberForm">
+      <label for="phoneNumber">Phone Number:</label>
+      <input type="tel" id="phoneNumber" name="phoneNumber" required />
+      <br />
+      <button type="button" id="signUpButton">Sign Up</button>
+    </form>
+
+    <h1 style="color: brown">Login</h1>
+
+    <form id="loginForm">
+      <label for="loginPhone">Phone Number:</label>
+      <input type="tel" id="loginPhone" name="loginPhone" required />
+      <br />
+
+      <label for="loginPassword">Password:</label>
+      <input type="password" id="loginPassword" name="loginPassword" required />
+      <br />
+
+      <button type="button" id="logInButton">Login</button>
+    </form>
+
+    <script>
+      $(document).ready(function () {
+        $("#signUpButton").click(function () {
+          const phoneNumber = $("#phoneNumber").val();
+
+          $.ajax({
+            type: "POST",
+            url: "https://eiik8uus2i.execute-api.us-east-1.amazonaws.com/user_login",
+            data: JSON.stringify({ phone_number: phoneNumber }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: (response) => {
+              if (response.statusCode === 409) {
+                alert("Duplicate phone number found.");
+              } else {
+                window.location.href = "./sign-up.html";
+              }
+            },
+            error: (xhr, status, error) => {
+              if (xhr.status === 0) {
+                console.error("CORS issue: No response from the server.");
+              } else if (xhr.status === 403) {
+                console.error("CORS issue: Access to the server is forbidden.");
+              } else if (xhr.status === 404) {
+                console.error(
+                  "CORS issue: The requested resource was not found."
+                );
+              } else if (xhr.status === 500) {
+                console.error("CORS issue: Internal server error.");
+              } else {
+                console.error("CORS issue: An unexpected error occurred.");
+              }
+            },
+          });
+        });
+
+        $("#logInButton").click(function () {
+          const loginPhone = $("#loginPhone").val();
+          const loginPassword = $("#loginPassword").val();
+
+          const loginUser = {
+            phone_number: loginPhone,
+            password: loginPassword,
+          };
+
+          $.ajax({
+            type: "POST",
+            url: "https://eiik8uus2i.execute-api.us-east-1.amazonaws.com/user_login",
+            data: JSON.stringify(loginUser),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: (response) => {
+              if (response.statusCode === 404) {
+                alert("User not found.");
+                window.location.href = "./book-ride.html";
+              } else if (response.statusCode === 401) {
+                alert("Enter password is invalid.");
+                window.location.href = "./book-ride.html";
+              } else {
+                alert("User logged in successfully.");
+                window.location.href = "./find-taxi.html";
+              }
+            },
+            error: (xhr, status, error) => {
+              if (xhr.status === 0) {
+                console.error("CORS issue: No response from the server.");
+              } else if (xhr.status === 403) {
+                console.error("CORS issue: Access to the server is forbidden.");
+              } else if (xhr.status === 404) {
+                console.error(
+                  "CORS issue: The requested resource was not found."
+                );
+              } else if (xhr.status === 500) {
+                console.error("CORS issue: Internal server error.");
+              } else {
+                console.error("CORS issue: An unexpected error occurred.");
+              }
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

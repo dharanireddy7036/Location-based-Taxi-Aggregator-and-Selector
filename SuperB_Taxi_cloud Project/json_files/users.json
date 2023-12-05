@@ -1,0 +1,67 @@
+[
+  {
+    "user_name": "Surendra Vansia",
+    "phone_number": "+919727708977",
+    "email": "srvansia75@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [28.67811, 77.23202]
+    },
+    "is_verified": true,
+    "hash": "KkXJfbC6xh7dkStFY18OdXuzM8zhQhUPQp6Xk-t-lF1PV7dNYX9yU5unyZ6vTpqcSfhVJkeO0KL3xnHr8uyFIg==",
+    "plain_password": "123456",
+    "salt": "XNYD6NytTxuwoaE3gkyp8g=="
+  },
+  {
+    "user_name": "Ankit Singh",
+    "phone_number": "+919039396123",
+    "email": "mail.anku559@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [28.67155, 77.25187]
+    },
+    "is_verified": true,
+    "hash": "KkXJfbC6xh7dkStFY18OdXuzM8zhQhUPQp6Xk-t-lF1PV7dNYX9yU5unyZ6vTpqcSfhVJkeO0KL3xnHr8uyFIg==",
+    "plain_password": "123456",
+    "salt": "XNYD6NytTxuwoaE3gkyp8g=="
+  },
+  {
+    "user_name": "Amit Bharadwaj",
+    "phone_number": "+918130287171",
+    "email": "auihqxqf@example.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [28.65255, 77.24287]
+    },
+    "is_verified": true,
+    "hash": "KkXJfbC6xh7dkStFY18OdXuzM8zhQhUPQp6Xk-t-lF1PV7dNYX9yU5unyZ6vTpqcSfhVJkeO0KL3xnHr8uyFIg==",
+    "plain_password": "123456",
+    "salt": "XNYD6NytTxuwoaE3gkyp8g=="
+  },
+  {
+    "user_name": "Jyoti Thakuria",
+    "phone_number": "+919401360358",
+    "email": "mdcafpxc@example.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [28.63355, 77.26387]
+    },
+    "is_verified": true,
+    "hash": "KkXJfbC6xh7dkStFY18OdXuzM8zhQhUPQp6Xk-t-lF1PV7dNYX9yU5unyZ6vTpqcSfhVJkeO0KL3xnHr8uyFIg==",
+    "plain_password": "123456",
+    "salt": "XNYD6NytTxuwoaE3gkyp8g=="
+  },
+  {
+    "user_name": "Imple Opus",
+    "phone_number": "+919098313606",
+    "email": "impleopus@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [28.64455, 77.21487]
+    },
+    "is_verified": true,
+    "hash": "KkXJfbC6xh7dkStFY18OdXuzM8zhQhUPQp6Xk-t-lF1PV7dNYX9yU5unyZ6vTpqcSfhVJkeO0KL3xnHr8uyFIg==",
+    "plain_password": "123456",
+    "salt": "XNYD6NytTxuwoaE3gkyp8g=="
+  }
+]

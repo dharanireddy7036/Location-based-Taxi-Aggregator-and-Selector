@@ -1,0 +1,38 @@
+### Create new Driver
+@JYT_NEW_DRIVER=https://q7tz727wpd.execute-api.us-east-1.amazonaws.com/register_driver
+@RGV_NEW_DRIVER=https://mqqcnswup8.execute-api.us-east-1.amazonaws.com/driver_register
+POST {{RGV_NEW_DRIVER}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "full_name": "Driver B",
+  "email": "driverb@gmail.com",
+  "phone_number": "+919098313607",
+  "vehicle_number": "MP13FA1235",
+  "driving_license_no": "MPDLN6788",
+  "vehicle_type": "SEDAN",
+  "initial_location": { 
+    "type": "Point",
+    "coordinates": [ 75.792384, 23.196467 ]
+  },
+  "current_location": { 
+    "type": "Point",
+    "coordinates": [ 75.792384, 23.196467 ]
+  }
+}
+
+### Login to List Rides of Driver
+POST https://q4v8c3mhxg.execute-api.us-east-1.amazonaws.com/driver_login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "srvansia75+drive005@gmail.com"
+}
+
+### End Ride
+POST https://d8qix5krgh.execute-api.us-east-1.amazonaws.com/driver_end_ride HTTP/1.1
+Content-Type: application/json
+
+{
+  "booking_id": "650b2d2c04038ea11933675d"
+}

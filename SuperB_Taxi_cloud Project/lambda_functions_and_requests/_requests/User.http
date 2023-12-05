@@ -1,0 +1,63 @@
+### Send User Registration OTP
+POST https://wcxfuqf124.execute-api.us-east-1.amazonaws.com/sign_up_otp_user HTTP/1.1
+Content-Type: application/json
+
+{
+  "phone_number": "+919401360358"
+}
+
+
+### Verify User OTP
+POST https://7i1kitb9k5.execute-api.us-east-1.amazonaws.com/verify_user_otp HTTP/1.1
+Content-Type: application/json
+
+{
+  "phone_number": "+919401360358",
+  "otp": "833665"
+}
+
+
+### Update User Details
+PUT https://hdonovbvnc.execute-api.us-east-1.amazonaws.com/update_user_details HTTP/1.1
+Content-Type: application/json
+
+{
+  "user_name": "Jyoti",
+  "phone_number": "+919401360358",
+  "email": "jyoti@mail.com",
+  "password": "PASSWORD_SUPER_SECRET"
+}
+
+### Resend OTP
+
+
+### Login User
+POST 	https://eiik8uus2i.execute-api.us-east-1.amazonaws.com/user_login HTTP/1.1
+Content-Type: application/json
+
+{
+  "phone_number": "+919039396123",
+  "password": "123456a"
+}
+
+
+### Find Taxis
+POST 	https://8k6g5wsohe.execute-api.us-east-1.amazonaws.com/find_taxi HTTP/1.1
+Content-Type: application/json
+
+{
+  "phone_number": "+919727708977",
+  "vehicle_type": "SEDAN"
+}
+
+
+### Book Ride
+POST 	https://evqiikm7ha.execute-api.us-east-1.amazonaws.com/book_ride HTTP/1.1
+Content-Type: application/json
+
+{
+  "phone_number": "+919039396123",
+  "drop_off_location": "Indore",
+  "vehicle_type": "SUV",
+  "taxi_id": ""
+}

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      /* Define table styles */
+      #taxiTable {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      #taxiTable th,
+      #taxiTable td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      #taxiTable th {
+        background-color: #f2f2f2;
+      }
+
+      /* Define button styles */
+      .book-button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+
+      /* Hide the table initially */
+      .hidden {
+        display: none;
+      }
+    </style>
+    <title>Taxi Booking</title>
+  </head>
+  <body>
+    <h1 style="color: brown">Book My Ride</h1>
+
+    <form>
+      <label for="phoneNumber">Phone Number:</label>
+      <input type="text" id="phoneNumber" name="phoneNumber" required />
+      <br />
+
+      <label for="dropOffLocation">Destination:</label>
+      <input type="text" id="dropOffLocation" name="dropOffLocation" required />
+      <br />
+
+      <label for="vehicleType">Vehicle Type:</label>
+      <select id="vehicleType" name="vehicleType">
+        <option value="SEDAN">Sedan</option>
+        <option value="SUV">SUV</option>
+        <option value="VAN">Van</option>
+        <option value="HATCH_BACK">Hatch Back</option>
+        <option value="MUV">MUV</option>
+      </select>
+      <br />
+
+      <button type="button" id="searchTaxi">Book Taxi</button>
+
+      <hr />
+
+      <table id="taxiTable" class="hidden">
+        <thead>
+          <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Vehicle Type</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Taxi data will be added here -->
+        </tbody>
+      </table>
+    </form>
+
+    <script>
+      $(document).ready(function () {
+        $("#searchTaxi").click(function () {
+          const phoneNumber = $("#phoneNumber").val();
+          const dropOffLocation = $("#dropOffLocation").val();
+          const vehicleType = $("#vehicleType").val();
+
+          const searchData = {
+            phone_number: phoneNumber,
+            drop_off_location: dropOffLocation,
+            vehicle_type: vehicleType,
+          };
+
+          $.ajax({
+            type: "POST",
+            url: "https://8k6g5wsohe.execute-api.us-east-1.amazonaws.com/find_taxi",
+            data: JSON.stringify(searchData),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: (response) => {
+              if (response.statusCode === 200 && response.data.length) {
+                const taxiData = response.data;
+                const table = document.querySelector("#taxiTable");
+                const tableBody = table.querySelector("tbody");
+
+                table.classList.remove("hidden");
+
+                taxiData.forEach((taxi) => {
+                  const row = document.createElement("tr");
+
+                  const fullNameCell = document.createElement("td");
+                  fullNameCell.textContent = taxi.full_name;
+
+                  const emailCell = document.createElement("td");
+                  emailCell.textContent = taxi.email;
+
+                  const vehicleTypeCell = document.createElement("td");
+                  vehicleTypeCell.textContent = taxi.vehicle_type;
+
+                  const actionCell = document.createElement("td");
+                  const bookRideButton = document.createElement("button");
+                  bookRideButton.textContent = "Book Ride";
+                  bookRideButton.type = "button";
+                  bookRideButton.id = "bookRideButton";
+
+                  bookRideButton.addEventListener("click", () => {
+                    const bookingData = {
+                      phone_number: phoneNumber,
+                      drop_off_location: dropOffLocation,
+                      vehicle_type: vehicleType,
+                      taxi_id: taxi._id["$oid"],
+                    };
+
+                    $.ajax({
+                      type: "POST",
+                      url: "https://evqiikm7ha.execute-api.us-east-1.amazonaws.com/book_ride",
+                      data: JSON.stringify(bookingData),
+                      contentType: "application/json; charset=utf-8",
+                      dataType: "json",
+                      success: (response) => {
+                        if (response.statusCode === 201) {
+                          alert("Ride booked successfully.");
+                          window.location.href = "./find-taxi.html";
+                        }
+                      },
+                      error: (xhr, status, error) => {
+                        if (xhr.status === 0) {
+                          console.error(
+                            "CORS issue: No response from the server."
+                          );
+                        } else if (xhr.status === 403) {
+                          console.error(
+                            "CORS issue: Access to the server is forbidden."
+                          );
+                        } else if (xhr.status === 404) {
+                          console.error(
+                            "CORS issue: The requested resource was not found."
+                          );
+                        } else if (xhr.status === 500) {
+                          console.error("CORS issue: Internal server error.");
+                        } else {
+                          console.error(
+                            "CORS issue: An unexpected error occurred."
+                          );
+                        }
+                      },
+                    });
+                  });
+
+                  actionCell.appendChild(bookRideButton);
+
+                  row.appendChild(fullNameCell);
+                  row.appendChild(emailCell);
+                  row.appendChild(vehicleTypeCell);
+                  row.appendChild(actionCell);
+
+                  tableBody.appendChild(row);
+                });
+              } else {
+                alert(`Taxi's not found.`);
+              }
+            },
+            error: (xhr, status, error) => {
+              if (xhr.status === 0) {
+                console.error("CORS issue: No response from the server.");
+              } else if (xhr.status === 403) {
+                console.error("CORS issue: Access to the server is forbidden.");
+              } else if (xhr.status === 404) {
+                console.error(
+                  "CORS issue: The requested resource was not found."
+                );
+              } else if (xhr.status === 500) {
+                console.error("CORS issue: Internal server error.");
+              } else {
+                console.error("CORS issue: An unexpected error occurred.");
+              }
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
